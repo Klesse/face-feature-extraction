@@ -45,6 +45,7 @@ distance.
 * Graphic interface (maybe tkinter).
 * Real-time face recognition and insertion of new faces at the database.
 * Usage of SGBD's instead of python lists (maybe PostgreSQL or even SQLite).
+* Registration of access with datetime data and name in a csv file.
 
 # Author
 

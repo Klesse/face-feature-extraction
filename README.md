@@ -37,9 +37,14 @@ distance.
 
 # TODOs
 
-* Explores different types of distance to better fit the similarity
-* Try different types of feature extractors
+* Explores different types of distance to better fit the similarity.
+* Try different types of feature extractors.
 
+# New Version
+
+* Graphic interface (maybe tkinter).
+* Real-time face recognition and insertion of new faces at the database.
+* Usage of SGBD's instead of python lists (maybe PostgreSQL or even SQLite).
 
 # Author
 

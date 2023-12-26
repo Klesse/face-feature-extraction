@@ -39,6 +39,7 @@ distance.
 
 * Explores different types of distance to better fit the similarity.
 * Try different types of feature extractors.
+* Frame of the architecture outputed from tensorboard.
 
 # New Version
 

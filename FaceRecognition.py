@@ -4,7 +4,7 @@ CREATE TABLE face_features(id SERIAL PRIMARY KEY,
                            access TIMESTAMP,
                            feature JSON);
 """
-
+import tensorflow as tf
 from tensorflow import keras
 from keras.applications import VGG16
 from keras.models import Model
@@ -14,6 +14,7 @@ import psycopg2
 import numpy as np
 import json
 import datetime
+
 
 class FaceRecognition:
     def __init__(self):

@@ -3,13 +3,26 @@ from keras.applications import VGG16
 from keras.models import Model
 from keras.preprocessing.image import load_img, img_to_array
 from keras.applications.vgg16 import preprocess_input
+import psycopg2
 import numpy as np
-
-
 
 class FaceRecognition:
     def __init__(self):
+        self.user, self.password = self._read_credentials()
+
         self.model = VGG16(weights='imagenet', include_top=False)
+        self.conn = psycopg2.connect(database = "features", 
+                        user = self.user, 
+                        host= 'localhost',
+                        password = self.password,
+                        port = 5432)
+        self.cur = self.conn.cursor()
+    
+    def _read_credentials(self):
+        with open('access.txt','r') as f:
+            lines = f.readlines()
+
+        return str(lines[0].replace('\n','')), str(lines[1])
 
     def extract_features(self, image_path):
         img = load_img(image_path, target_size=(224, 224))
@@ -19,3 +32,7 @@ class FaceRecognition:
 
         features = self.model.predict(img_array)
         return features.flatten()
+
+    def closest_feature(self, target):
+        pass
+

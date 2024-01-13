@@ -1,3 +1,10 @@
+"""
+CREATE TABLE face_features(id SERIAL PRIMARY KEY, 
+                           name VARCHAR(255),
+                           access TIMESTAMP,
+                           feature JSON);
+"""
+
 from tensorflow import keras
 from keras.applications import VGG16
 from keras.models import Model
@@ -5,6 +12,8 @@ from keras.preprocessing.image import load_img, img_to_array
 from keras.applications.vgg16 import preprocess_input
 import psycopg2
 import numpy as np
+import json
+import datetime
 
 class FaceRecognition:
     def __init__(self):
@@ -24,7 +33,7 @@ class FaceRecognition:
 
         return str(lines[0].replace('\n','')), str(lines[1])
 
-    def extract_features(self, image_path):
+    def _extract_features(self, image_path):
         img = load_img(image_path, target_size=(224, 224))
         img_array = img_to_array(img)
         img_array = np.expand_dims(img_array, axis=0)
@@ -32,6 +41,16 @@ class FaceRecognition:
 
         features = self.model.predict(img_array)
         return features.flatten()
+
+    def data_to_db(self, image_path):
+        features_np = self._extract_features(image_path)
+        features_json = json.dumps(features_np.tolist())
+
+        access_time = datetime.datetime.now()
+
+        sql_insert = "INSERT INTO face_features(name, access, feature) VALUES (%s, %s, %s);"
+        self.cur.execute(sql_insert, ('Tom Hanks', access_time ,features_json)) # Name to a variable
+        self.conn.commit()
 
     def closest_feature(self, target):
         pass
